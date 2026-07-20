@@ -1,7 +1,7 @@
 """Build sentence embeddings for movies and store them in a Chroma collection."""
 
+import polars as pl
 import chromadb
-import pandas as pd
 from sentence_transformers import SentenceTransformer
 
 from config import (
@@ -21,10 +21,10 @@ def get_collection():
     return client.get_or_create_collection(name=COLLECTION_NAME)
 
 
-def embed_movies(df: pd.DataFrame, model: SentenceTransformer, collection) -> None:
-    documents = df["overview"].tolist()
-    ids = df.index.astype(str).tolist()
-    metadatas = df.drop(columns=["overview"]).to_dict(orient="records")
+def embed_movies(df: pl.DataFrame, model: SentenceTransformer, collection) -> None:
+    documents = df["plot"].to_list()
+    ids = [str(i) for i in range(df.height)]
+    metadatas = df.drop("plot").to_dicts()
 
     embeddings = model.encode(documents, show_progress_bar=True).tolist()
 
@@ -37,7 +37,7 @@ def embed_movies(df: pd.DataFrame, model: SentenceTransformer, collection) -> No
 
 
 if __name__ == "__main__":
-    df = pd.read_csv(PROCESSED_DATA_DIR / "movies_clean.csv")
+    df = pl.read_csv(PROCESSED_DATA_DIR / "movies_clean.csv")
     model = get_model()
     collection = get_collection()
     embed_movies(df, model, collection)
