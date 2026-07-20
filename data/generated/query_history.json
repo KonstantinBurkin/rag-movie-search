@@ -1,0 +1,118 @@
+[
+  {
+    "timestamp": "2026-07-20T14:17:34.141795+00:00",
+    "query": "a heist movie with a twist ending",
+    "response": {
+      "rankings": [
+        {
+          "rank": 1,
+          "title": "Hero Wanted",
+          "justification": "The protagonist orchestrates an elaborate bank heist to play the hero, but the plan goes horribly wrong when the robbery turns violent and results in unexpected bloodshed."
+        },
+        {
+          "rank": 2,
+          "title": "Redirected",
+          "justification": "A casino heist in London goes awry due to betrayal and global events, leaving the perpetrators stranded in an unfamiliar country where they must navigate a surreal series of violent misunderstandings."
+        },
+        {
+          "rank": 3,
+          "title": "Rajathandhiram",
+          "justification": "After jobless youth attempt a high-stakes heist, they find themselves caught in a dangerous web of double-crosses by shady characters forcing them into a much larger operation."
+        },
+        {
+          "rank": 4,
+          "title": "Villain",
+          "justification": "While planning an ambitious raid on a plastics factory, an East End gangster must deal with complex internal dynamics and violent complications that deviate from his standard criminal methodology."
+        },
+        {
+          "rank": 5,
+          "title": "The Last Shot",
+          "justification": "An FBI agent stages a fake film production as an elaborate sting operation to entrap mobsters, only to find the line between reality and the heist-like deception blurring as he becomes obsessed with the movie business."
+        },
+        {
+          "rank": 6,
+          "title": "Desperate",
+          "justification": "A trucker is inadvertently pulled into a burglary-turned-murder, forcing him into a desperate cat-and-mouse game where he must outmaneuver both the police and the criminal gang holding his wife hostage."
+        },
+        {
+          "rank": 7,
+          "title": "Stolen Heaven",
+          "justification": "A street girl and a young thief execute a robbery for twenty thousand dollars, but the weight of their crime leads to an unexpected moral pivot where the man confesses and turns himself in."
+        },
+        {
+          "rank": 8,
+          "title": "Maaro",
+          "justification": "A bank robbery leads to a tragic death and a suicide, setting in motion a suspenseful investigation where the protagonist seeks to expose the true culprit behind the criminal conspiracy."
+        },
+        {
+          "rank": 9,
+          "title": "Farewell",
+          "justification": "A millionaire's wife and a steward orchestrate a cold-blooded murder plot to steal his fortune, resulting in a dark sequence of betrayal, imprisonment, and violent consequences."
+        },
+        {
+          "rank": 10,
+          "title": "Guest House",
+          "justification": "A lustful guest is murdered for a valuable ring, but the perpetrator faces an unforeseen twist when the victim's severed hand gains supernatural power to seek vengeance."
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-07-20T14:26:27.124716+00:00",
+    "query": "an epic adventure movie with a sad ending",
+    "response": {
+      "rankings": [
+        {
+          "rank": 1,
+          "title": "The Disappeared",
+          "justification": "This epic struggle for survival in the vast North Atlantic follows six men whose isolation and deteriorating mental states reflect the grim reality of their stranded situation."
+        },
+        {
+          "rank": 2,
+          "title": "Halunda Tavaru",
+          "justification": "This tragedy drama details the harsh riches-to-rags transition of its protagonists, culminating in a sad ending where both lead characters die."
+        },
+        {
+          "rank": 3,
+          "title": "Anumati",
+          "justification": "The story depicts the emotional and financial struggle of an old man trying to save his wife, ending in his tragic death despite the help of a friend."
+        },
+        {
+          "rank": 4,
+          "title": "Tony de Peltrie",
+          "justification": "This short film captures the melancholy journey of a piano player reminiscing over his past glory days, ending on a deeply sad, fading note."
+        },
+        {
+          "rank": 5,
+          "title": "Bangarada Jinke",
+          "justification": "This film features an epic-scale adventure involving a treasure hunt for a golden deer, set against a backdrop of rebirth and revenge."
+        },
+        {
+          "rank": 6,
+          "title": "Visitors",
+          "justification": "The protagonist's solo voyage around the world turns into a psychological adventure as she grapples with increasing isolation and madness on the open sea."
+        },
+        {
+          "rank": 7,
+          "title": "This Is the End",
+          "justification": "The film depicts a chaotic, apocalyptic struggle as friends face the biblical end of the world, losing several companions to death along the way."
+        },
+        {
+          "rank": 8,
+          "title": "Nightmare at Bittercreek",
+          "justification": "This suspenseful adventure follows a group of women hiking through the wilderness who are forced into a deadly struggle for survival against racist survivalists."
+        },
+        {
+          "rank": 9,
+          "title": "Aakashathinum Bhoomikkumidayil",
+          "justification": "The narrative explores the tragic aftermath of a case of mistaken identity, where political murder leaves two families devastated."
+        },
+        {
+          "rank": 10,
+          "title": "A Tale of Sorrow and Sadness",
+          "justification": "This story tracks a model's sudden rise to success on the professional circuit followed by a dark and sinister descent into blackmail and threats."
+        }
+      ]
+    }
+  }
+]
