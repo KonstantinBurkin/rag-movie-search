@@ -11,12 +11,12 @@ def load_raw_movies(filename: str = "summaries.csv") -> pl.DataFrame:
 
 
 def clean_movies(df: pl.DataFrame) -> pl.DataFrame:
-    df = df.drop_nulls(subset=["title", "overview"]).unique(
+    df = df.drop_nulls(subset=["title", "plot"]).unique(
         subset=["title"],
         keep="first",
         maintain_order=True,
     )
-    df = df.with_columns(pl.col("overview").str.strip_chars())
+    df = df.with_columns(pl.col("plot").str.strip_chars())
     return df
 
 
