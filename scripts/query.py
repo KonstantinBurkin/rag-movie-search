@@ -6,6 +6,7 @@ from typing import Any
 from config import RERANK_CANDIDATE_POOL_SIZE, RERANK_TOP_K
 from embeddings.embed import get_collection, get_model
 from reranking.rerank import RankingResult, rank_movies
+from scripts.history import append_history
 
 
 def search(query: str, n_results: int = RERANK_CANDIDATE_POOL_SIZE):
@@ -100,3 +101,4 @@ if __name__ == "__main__":
             args.query, candidate_pool_size=args.candidates, top_k=args.top_k
         )
         print_ranked_results(ranking)
+        append_history(args.query, ranking.model_dump())
