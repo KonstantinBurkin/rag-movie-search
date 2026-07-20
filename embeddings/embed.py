@@ -1,7 +1,7 @@
 """Build sentence embeddings for movies and store them in a Chroma collection."""
 
-import polars as pl
 import chromadb
+import polars as pl
 from sentence_transformers import SentenceTransformer
 
 from config import (
