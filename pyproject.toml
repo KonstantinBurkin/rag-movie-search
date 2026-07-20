@@ -1,0 +1,11 @@
+[project]
+name = "rag-movie-search"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.5.9",
+    "pandas>=3.0.3",
+    "sentence-transformers>=5.6.0",
+]
