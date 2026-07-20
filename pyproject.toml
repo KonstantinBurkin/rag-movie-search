@@ -12,3 +12,13 @@ dependencies = [
     "sentence-transformers>=5.6.0",
     "torch>=2.13.0",
 ]
+
+[dependency-groups]
+dev = [
+    "flake8>=7.3.0",
+    "isort>=8.0.1",
+]
+
+[tool.isort]
+profile = "black"
+line_length = 100
