@@ -1,11 +1,14 @@
 """Query the movie collection with a prompt."""
 
 import argparse
+from typing import Any
 
+from config import RERANK_CANDIDATE_POOL_SIZE, RERANK_TOP_K
 from embeddings.embed import get_collection, get_model
+from reranking.rerank import RankingResult, rank_movies
 
 
-def search(query: str, n_results: int = 5):
+def search(query: str, n_results: int = RERANK_CANDIDATE_POOL_SIZE):
     model = get_model()
     collection = get_collection()
 
@@ -13,6 +16,36 @@ def search(query: str, n_results: int = 5):
     results = collection.query(query_embeddings=query_embedding, n_results=n_results)
 
     return results
+
+
+def _to_candidate(document: str, metadata: dict[str, Any]) -> dict[str, Any]:
+    title = metadata.get("title", "")
+    plot = document.removeprefix(f"{title}\n\n")
+    return {
+        "title": title,
+        "plot": plot,
+        "metadata": {
+            "genre": metadata.get("genre"),
+            "release_year": metadata.get("release_year"),
+            "director": metadata.get("director"),
+            "origin": metadata.get("origin"),
+        },
+    }
+
+
+def search_and_rerank(
+    query: str,
+    candidate_pool_size: int = RERANK_CANDIDATE_POOL_SIZE,
+    top_k: int = RERANK_TOP_K,
+) -> RankingResult:
+    """Vector search for candidates, then rerank +
+    justify the top matches with Claude."""
+    results = search(query, n_results=candidate_pool_size)
+    candidates = [
+        _to_candidate(document, metadata)
+        for document, metadata in zip(results["documents"][0], results["metadatas"][0])
+    ]
+    return rank_movies(query, candidates, top_k=top_k)
 
 
 def print_results(results) -> None:
@@ -28,13 +61,42 @@ def print_results(results) -> None:
         print(f"   {doc}\n")
 
 
+def print_ranked_results(ranking: RankingResult) -> None:
+    for movie in ranking.rankings:
+        print(f"{movie.rank}. {movie.title}")
+        print(f"   {movie.justification}\n")
+
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Search movies by query.")
+    parser = argparse.ArgumentParser(
+        description="Search movies by query, reranked and justified by Claude."
+    )
     parser.add_argument("query", type=str, help="search query")
     parser.add_argument(
-        "-n", "--n-results", type=int, default=5, help="Number of results to return"
+        "-n",
+        "--top-k",
+        type=int,
+        default=RERANK_TOP_K,
+        help="Number of ranked results to return",
+    )
+    parser.add_argument(
+        "-c",
+        "--candidates",
+        type=int,
+        default=RERANK_CANDIDATE_POOL_SIZE,
+        help="Number of vector-search candidates to pass to the reranker",
+    )
+    parser.add_argument(
+        "--no-rerank",
+        action="store_true",
+        help="Skip Claude reranking and show raw vector-search results",
     )
     args = parser.parse_args()
 
-    results = search(args.query, args.n_results)
-    print_results(results)
+    if args.no_rerank:
+        print_results(search(args.query, n_results=args.top_k))
+    else:
+        ranking = search_and_rerank(
+            args.query, candidate_pool_size=args.candidates, top_k=args.top_k
+        )
+        print_ranked_results(ranking)
