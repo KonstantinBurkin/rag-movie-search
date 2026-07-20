@@ -10,3 +10,7 @@ EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
 COLLECTION_NAME = "movies"
 
 HF_DATASET_SUMMARIES_ID = "vishnupriyavr/wiki-movie-plots-with-summaries"
+
+RERANK_MODEL_NAME = "claude-opus-4-8"
+RERANK_TOP_K = 10
+RERANK_CANDIDATE_POOL_SIZE = 30
