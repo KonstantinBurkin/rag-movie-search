@@ -1,8 +1,9 @@
-"""Rerank a shortlist of candidate movies with Claude, given a user query."""
+"""Rerank a shortlist of candidate movies with Gemini, given a user query."""
 
 from typing import Any
 
-import anthropic
+from google import genai
+from google.genai import types
 from pydantic import BaseModel, Field
 
 from config import RERANK_MODEL_NAME, RERANK_TOP_K
@@ -65,22 +66,23 @@ def rank_movies(
     query: str,
     candidates: list[dict[str, Any]],
     top_k: int = RERANK_TOP_K,
-    client: anthropic.Anthropic | None = None,
+    client: genai.Client | None = None,
 ) -> RankingResult:
-    client = client or anthropic.Anthropic()
+    client = client or genai.Client()
 
-    response = client.messages.parse(
+    response = client.models.generate_content(
         model=RERANK_MODEL_NAME,
-        max_tokens=4096,
-        thinking={"type": "adaptive"},
-        system=SYSTEM_PROMPT,
-        messages=[
-            {"role": "user", "content": build_prompt(query, candidates, top_k=top_k)}
-        ],
-        output_format=RankingResult,
+        contents=build_prompt(query, candidates, top_k=top_k),
+        config=types.GenerateContentConfig(
+            system_instruction=SYSTEM_PROMPT,
+            response_mime_type="application/json",
+            response_schema=RankingResult,
+        ),
     )
 
-    if response.stop_reason == "refusal":
-        raise RuntimeError("Claude declined to rank this request")
+    if response.parsed is None:
+        raise RuntimeError(
+            "Gemini did not return a valid ranking (blocked or malformed response)"
+        )
 
-    return response.parsed_output
+    return response.parsed
