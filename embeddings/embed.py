@@ -22,6 +22,7 @@ def get_client() -> chromadb.ClientAPI:
 
 
 def get_collection(client: chromadb.ClientAPI | None = None):
+    client = client or get_client()
     return client.get_or_create_collection(name=COLLECTION_NAME)
 
 
