@@ -9,9 +9,14 @@ from reranking.rerank import RankingResult, rank_movies
 from scripts.history import append_history
 
 
-def search(query: str, n_results: int = RERANK_CANDIDATE_POOL_SIZE):
-    model = get_model()
-    collection = get_collection()
+def search(
+    query: str,
+    n_results: int = RERANK_CANDIDATE_POOL_SIZE,
+    model=None,
+    collection=None,
+):
+    model = model or get_model()
+    collection = collection or get_collection()
 
     query_embedding = model.encode([query]).tolist()
     results = collection.query(query_embeddings=query_embedding, n_results=n_results)
@@ -38,10 +43,12 @@ def search_and_rerank(
     query: str,
     candidate_pool_size: int = RERANK_CANDIDATE_POOL_SIZE,
     top_k: int = RERANK_TOP_K,
+    model=None,
+    collection=None,
 ) -> RankingResult:
     """Vector search for candidates, then rerank +
-    justify the top matches with Claude."""
-    results = search(query, n_results=candidate_pool_size)
+    justify the top matches with Gemini."""
+    results = search(query, n_results=candidate_pool_size, model=model, collection=collection)
     candidates = [
         _to_candidate(document, metadata)
         for document, metadata in zip(results["documents"][0], results["metadatas"][0])
