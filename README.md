@@ -40,6 +40,7 @@ uv run --env-file .env python -m embeddings.embed
 ```
 
 Reranking calls Gemini (`GEMINI_API_KEY=your-key-here`), so add a key to a local `.env`.
+Poster lookups call [TMDB](https://www.themoviedb.org/settings/api) (`TMDB_API_KEY=your-key-here`, free) — optional, the UI just skips posters without it.
 
 
 ## Usage

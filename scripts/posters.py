@@ -1,26 +1,29 @@
-"""Best-effort movie poster lookup via the Wikipedia REST API (no API key needed)."""
+"""Movie poster lookup via The Movie Database (TMDB) search API."""
 
-from urllib.parse import quote
+import os
 
 import requests
 
-WIKIPEDIA_SUMMARY_URL = "https://en.wikipedia.org/api/rest_v1/page/summary/{title}"
-
-# Wikipedia's robot policy rejects requests without an identifying User-Agent:
-# https://meta.wikimedia.org/wiki/User-Agent_policy
-REQUEST_HEADERS = {
-    "User-Agent": "rag-movie-search/0.1 (https://github.com/KonstantinBurkin/rag-movie-search)"
-}
+TMDB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
+TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w342"
 
 
-def fetch_poster(title: str) -> str | None:
-    """Return a thumbnail image URL for a movie title, or None if unavailable."""
-    url = WIKIPEDIA_SUMMARY_URL.format(title=quote(title))
+def fetch_poster(title: str, year: int | None = None) -> str | None:
+    """Return a poster image URL for a movie title, or None if unavailable."""
+    api_key = os.environ.get("TMDB_API_KEY")
+    if not api_key:
+        return None
+
+    params = {"api_key": api_key, "query": title}
+    if year:
+        params["year"] = year
+
     try:
-        response = requests.get(url, headers=REQUEST_HEADERS, timeout=3)
+        response = requests.get(TMDB_SEARCH_URL, params=params, timeout=3)
         response.raise_for_status()
     except requests.RequestException:
         return None
 
-    thumbnail = response.json().get("thumbnail")
-    return thumbnail["source"] if thumbnail else None
+    results = response.json().get("results") or []
+    poster_path = results[0].get("poster_path") if results else None
+    return f"{TMDB_IMAGE_BASE_URL}{poster_path}" if poster_path else None

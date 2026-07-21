@@ -43,11 +43,15 @@ if st.button("Search", type="primary"):
             else:
                 append_history(query, ranking.model_dump())
 
-                titles = [movie.title for movie in ranking.rankings]
                 poster_urls = []
-                if titles:
-                    with ThreadPoolExecutor(max_workers=len(titles)) as executor:
-                        poster_urls = list(executor.map(fetch_poster, titles))
+                if ranking.rankings:
+                    with ThreadPoolExecutor(max_workers=len(ranking.rankings)) as executor:
+                        poster_urls = list(
+                            executor.map(
+                                lambda movie: fetch_poster(movie.title, movie.release_year),
+                                ranking.rankings,
+                            )
+                        )
 
                 for movie, poster_url in zip(ranking.rankings, poster_urls):
                     with st.container(border=True):
