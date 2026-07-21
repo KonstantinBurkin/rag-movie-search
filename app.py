@@ -58,5 +58,6 @@ if st.button("Search", type="primary"):
                             else:
                                 st.markdown("🎞️\n\n*No poster*")
                         with info_col:
-                            st.write(f"{movie.rank}. {movie.title}")
+                            year_suffix = f" ({movie.release_year})" if movie.release_year else ""
+                            st.write(f"{movie.title}{year_suffix}")
                             st.write(movie.justification)

@@ -53,7 +53,13 @@ def search_and_rerank(
         _to_candidate(document, metadata)
         for document, metadata in zip(results["documents"][0], results["metadatas"][0])
     ]
-    return rank_movies(query, candidates, top_k=top_k)
+    ranking = rank_movies(query, candidates, top_k=top_k)
+
+    release_years = {c["title"]: c["metadata"]["release_year"] for c in candidates}
+    for movie in ranking.rankings:
+        movie.release_year = release_years.get(movie.title) or None
+
+    return ranking
 
 
 def print_results(results) -> None:

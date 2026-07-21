@@ -30,6 +30,7 @@ class RankedMovie(BaseModel):
     rank: int = Field(..., ge=1, description="1 = best match")
     title: str
     justification: str = Field(..., description="One sentence, referencing the plot")
+    release_year: int | None = None
 
 
 class RankingResult(BaseModel):
