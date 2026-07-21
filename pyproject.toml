@@ -10,7 +10,9 @@ dependencies = [
     "google-genai>=2.12.1",
     "pandas>=3.0.3",
     "polars>=1.42.1",
+    "requests>=2.34.2",
     "sentence-transformers>=5.6.0",
+    "streamlit>=1.59.2",
     "torch>=2.13.0",
 ]
 
@@ -23,3 +25,15 @@ dev = [
 [tool.isort]
 profile = "black"
 line_length = 100
+
+[tool.uv.sources]
+# We only ever run CPU inference on a small embedding model - avoid pulling
+# ~2GB of CUDA libraries that plain PyPI torch defaults to on Linux.
+torch = [
+    { index = "pytorch-cpu", marker = "sys_platform == 'linux'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
