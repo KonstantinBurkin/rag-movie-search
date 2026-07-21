@@ -6,7 +6,7 @@ RAW_DATA_DIR = DATA_DIR / "raw"
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
 CHROMA_DB_DIR = DATA_DIR / "chroma_db"
 
-EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
+EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 COLLECTION_NAME = "movies"
 
 HF_DATASET_SUMMARIES_ID = "vishnupriyavr/wiki-movie-plots-with-summaries"

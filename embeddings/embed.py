@@ -2,7 +2,7 @@
 
 import chromadb
 import polars as pl
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 
 from config import (
     CHROMA_DB_DIR,
@@ -13,8 +13,8 @@ from config import (
 from embeddings.schema import build_record
 
 
-def get_model() -> SentenceTransformer:
-    return SentenceTransformer(EMBEDDING_MODEL_NAME)
+def get_model() -> TextEmbedding:
+    return TextEmbedding(model_name=EMBEDDING_MODEL_NAME)
 
 
 def get_client() -> chromadb.ClientAPI:
@@ -27,14 +27,14 @@ def get_collection(client: chromadb.ClientAPI | None = None):
 
 
 def embed_movies(
-    df: pl.DataFrame, model: SentenceTransformer, collection, max_batch_size: int
+    df: pl.DataFrame, model: TextEmbedding, collection, max_batch_size: int
 ) -> None:
     records = [build_record(row) for row in df.to_dicts()]
     documents = [document for document, _ in records]
     metadatas = [metadata for _, metadata in records]
     ids = [str(i) for i in range(len(records))]
 
-    embeddings = model.encode(documents, show_progress_bar=True).tolist()
+    embeddings = [vector.tolist() for vector in model.embed(documents)]
 
     for start in range(0, len(ids), max_batch_size):
         end = start + max_batch_size

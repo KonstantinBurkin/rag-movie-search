@@ -18,7 +18,7 @@ def search(
     model = model or get_model()
     collection = collection or get_collection()
 
-    query_embedding = model.encode([query]).tolist()
+    query_embedding = [vector.tolist() for vector in model.embed([query])]
     results = collection.query(query_embeddings=query_embedding, n_results=n_results)
 
     return results
