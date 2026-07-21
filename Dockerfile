@@ -13,7 +13,7 @@ RUN chown appuser:appuser /app
 USER appuser
 
 # Install dependencies first (separate layer) so code-only changes don't
-# invalidate the slow torch/transformers/chromadb install.
+# invalidate the slow chromadb/fastembed install.
 COPY --chown=appuser:appuser pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-install-project
 
