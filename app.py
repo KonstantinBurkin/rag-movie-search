@@ -1,5 +1,7 @@
 """Minimal Streamlit UI: search, rerank, and recommended movies as cards."""
 
+from concurrent.futures import ThreadPoolExecutor
+
 import streamlit as st
 
 from embeddings.embed import get_collection, get_model
@@ -40,11 +42,17 @@ if st.button("Search", type="primary"):
                 st.error(f"Search failed: {exc}")
             else:
                 append_history(query, ranking.model_dump())
-                for movie in ranking.rankings:
+
+                titles = [movie.title for movie in ranking.rankings]
+                poster_urls = []
+                if titles:
+                    with ThreadPoolExecutor(max_workers=len(titles)) as executor:
+                        poster_urls = list(executor.map(fetch_poster, titles))
+
+                for movie, poster_url in zip(ranking.rankings, poster_urls):
                     with st.container(border=True):
                         poster_col, info_col = st.columns([1, 3])
                         with poster_col:
-                            poster_url = fetch_poster(movie.title)
                             if poster_url:
                                 st.image(poster_url)
                             else:
