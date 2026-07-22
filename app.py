@@ -45,10 +45,14 @@ if st.button("Search", type="primary"):
 
                 poster_urls = []
                 if ranking.rankings:
-                    with ThreadPoolExecutor(max_workers=len(ranking.rankings)) as executor:
+                    with ThreadPoolExecutor(
+                        max_workers=len(ranking.rankings)
+                    ) as executor:
                         poster_urls = list(
                             executor.map(
-                                lambda movie: fetch_poster(movie.title, movie.release_year),
+                                lambda movie: fetch_poster(
+                                    movie.title, movie.release_year
+                                ),
                                 ranking.rankings,
                             )
                         )
@@ -62,6 +66,8 @@ if st.button("Search", type="primary"):
                             else:
                                 st.markdown("🎞️\n\n*No poster*")
                         with info_col:
-                            year_suffix = f" ({movie.release_year})" if movie.release_year else ""
+                            year_suffix = (
+                                f" ({movie.release_year})" if movie.release_year else ""
+                            )
                             st.write(f"{movie.title}{year_suffix}")
                             st.write(movie.justification)
