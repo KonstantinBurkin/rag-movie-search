@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 from config import RERANK_MODEL_NAME, RERANK_TOP_K
 
 SYSTEM_PROMPT = """You are an expert movie curator.
-Given a user's search query and a numbered list of candidate movies, 
+Given a user's search query and a numbered list of candidate movies,
 rank the movies that best match the query.
 
 For each movie, report its candidate number from the list
