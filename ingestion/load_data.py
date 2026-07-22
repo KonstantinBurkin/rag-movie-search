@@ -17,6 +17,28 @@ def clean_movies(df: pl.DataFrame) -> pl.DataFrame:
         maintain_order=True,
     )
     df = df.with_columns(pl.col("plot").str.strip_chars())
+    df = df.filter(
+        c("release_year") > 1920,
+        c("origin")
+        .is_in(
+            (
+                "Bollywood",
+                "Tamil",
+                "Malayalam",
+                "Telugu",
+                "Bangladeshi",
+                "Punjabi",
+                "Assamese",
+                "Marathi",
+                "Malaysian",
+                "Maldivian",
+                "Bengali",
+                "Kannada",
+                "Egyptian",
+            )
+        )
+        .not_(),
+    )
     return df
 
 
