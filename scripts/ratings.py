@@ -24,4 +24,4 @@ def fetch_rating(title: str, year: int | None = None) -> float | None:
         return None
 
     results = response.json().get("results") or []
-    return results[0].get("vote_average") if results else None
+    return results[0].get("popularity") if results else None

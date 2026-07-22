@@ -10,9 +10,9 @@ from config import RERANK_MODEL_NAME, RERANK_TOP_K
 
 SYSTEM_PROMPT = """You are an expert movie curator.
 Given a user's search query and a numbered list of candidate movies,
-select and rank the movies that best match the query.
+rank the movies that best match the query.
 
-For each selected movie, report its candidate number from the list
+For each movie, report its candidate number from the list
 (candidate_index) and write a one-line justification that
 references a specific detail from its plot — not a generic
 restatement of the query. Rank strictly by relevance to the query,
@@ -23,7 +23,7 @@ RANKING_PROMPT_TEMPLATE = """User query: {query}
 Candidate movies:
 {candidates_block}
 
-Select and rank the top {top_k} movies from this list that best
+Rank the top {top_k} movies from this list that best
 match the user query."""
 
 
