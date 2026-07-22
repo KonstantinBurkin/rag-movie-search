@@ -19,3 +19,6 @@ RATING_FILTER_POOL_SIZE = 20
 GENERATED_DATA_DIR = DATA_DIR / "generated"
 QUERY_HISTORY_FILE = GENERATED_DATA_DIR / "query_history.json"
 QUERY_HISTORY_MAX_ENTRIES = 5
+
+TMDB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
+TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w342"

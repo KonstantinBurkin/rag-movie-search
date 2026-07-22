@@ -4,7 +4,7 @@ import os
 
 import requests
 
-TMDB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
+from config import TMDB_SEARCH_URL
 
 
 def fetch_rating(title: str, year: int | None = None) -> float | None:

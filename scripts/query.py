@@ -84,9 +84,10 @@ def search_and_rerank(
     candidates = _filter_by_rating(candidates, rating_filter_size)
     ranking = rank_movies(query, candidates, top_k=top_k)
 
-    release_years = {c["title"]: c["metadata"]["release_year"] for c in candidates}
     for movie in ranking.rankings:
-        movie.release_year = release_years.get(movie.title) or None
+        index = movie.candidate_index - 1
+        if 0 <= index < len(candidates):
+            movie.release_year = candidates[index]["metadata"]["release_year"] or None
 
     return ranking
 

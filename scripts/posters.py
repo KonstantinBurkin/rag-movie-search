@@ -4,8 +4,7 @@ import os
 
 import requests
 
-TMDB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
-TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w342"
+from config import TMDB_IMAGE_BASE_URL, TMDB_SEARCH_URL
 
 
 def fetch_poster(title: str, year: int | None = None) -> str | None:

@@ -9,10 +9,11 @@ from pydantic import BaseModel, Field
 from config import RERANK_MODEL_NAME, RERANK_TOP_K
 
 SYSTEM_PROMPT = """You are an expert movie curator.
-Given a user's search query and a list of candidate movies,
+Given a user's search query and a numbered list of candidate movies,
 select and rank the movies that best match the query.
 
-For each selected movie, write a one-line justification that
+For each selected movie, report its candidate number from the list
+(candidate_index) and write a one-line justification that
 references a specific detail from its plot — not a generic
 restatement of the query. Rank strictly by relevance to the query,
 best match first."""
@@ -28,6 +29,9 @@ match the user query."""
 
 class RankedMovie(BaseModel):
     rank: int = Field(..., ge=1, description="1 = best match")
+    candidate_index: int = Field(
+        ..., ge=1, description="The candidate's number from the input list"
+    )
     title: str
     justification: str = Field(..., description="One sentence, referencing the plot")
     release_year: int | None = None
