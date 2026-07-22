@@ -1,6 +1,7 @@
 """Load raw movie data (CSV) and clean it into a processed DataFrame."""
 
 import polars as pl
+from polars import col as c
 
 from config import PROCESSED_DATA_DIR, RAW_DATA_DIR
 
